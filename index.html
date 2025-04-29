@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xabun Menü</title>
+    <style>
+        #searchResults {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none; 
+}
+
+.search-result-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.search-result-item:hover {
+    background-color: #f0f0f0;
+}
+
+        body {
+            background-color: #f2f2f2;
+            color: #222;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+       
+
+        header {
+            background-color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            position: relative;
+        }
+        header img {
+            height: 40px;
+            position: absolute;
+            left: 20px;
+            top: 15px;
+        }
+        #searchInput {
+            width: 90%;
+            padding: 10px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+        .category {
+            background-color: rgba(224,224,224,0.8);
+            padding: 15px;
+            margin: 10px;
+            cursor: pointer;
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.9);
+            border-radius: 8px;
+            font-weight: 600;
+            background-size: cover;
+            background-position: center;
+            color: #fffcfc;
+            position: relative;
+            -webkit-text-stroke: 0.4px black;
+            font-size: 22px;
+        }
+        .items {
+            display: none;
+            padding: 10px 20px;
+        }
+        .item {
+            padding: 8px 0;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            font-weight: normal;
+            font-size: 18px;
+            position: relative;
+            
+        }
+        #productPopup {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 10%;
+            width: 80%;
+            background: white;
+            border: 2px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 999;
+        }
+        #productPopup img {
+            width: 100%;
+            height: 300px; 
+            border-radius: 8px;
+            object-fit: cover;
+            margin-top: 10px;
+        }
+        #closePopup {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .item span.price {
+         position: absolute;
+         right: 10px;
+         top: 50%;
+         transform: translateY(-50%);
+         font-weight: bold;
+
+}
+    </style>
+</head>
+<body>
+    
+<header>
+    <img src="logo.png" alt="Logo">
+    XABUN MENÜ
+</header>
+<input type="text" id="searchInput" placeholder="Ürün ara...">
+    <div id="searchResults"></div>
+<div class="category" style="background-image: url('aperatif.jpg');" onclick="toggleItems('aperatifler')">Aperatifler</div>
+<div class="items" id="aperatifler">
+    <div class="item" onclick="showProduct('Patates Tabağı', 'Çıtır patates kızartması.', 'patates.jpg')">Patates Tabağı <span class="price">220₺</span></div>
+    <div class="item" onclick="showProduct('Bira Tabağı', 'Çeşitli atıştırmalıklarla bira keyfi.', 'bira.jpg')">Bira Tabağı <span class="price">300₺</span></div>
+    <div class="item" onclick="showProduct('Çıtır Tavuk', 'Özel baharatlı çıtır tavuk dilimleri.', 'citir-tavuk.jpg')">Çıtır Tavuk <span class="price">290₺</span></div>
+    <div class="item" onclick="showProduct('Xabun Combo', 'Aperatiflerin birleşimi.', 'combo.jpg')">Xabun Combo <span class="price">350₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('biralar.jpg');" onclick="toggleItems('biralar')">Biralar</div>
+<div class="items" id="biralar">
+    <div class="item" onclick="showProduct('Efes 33 cl', ' Efes 33 cl.', 'kucukefes.jpg')">Efes 33cl <span class="price">150₺</span> </div>
+    <div class="item" onclick="showProduct('Efes Malt', 'Efes Malt 50cl.', 'malt.jpg')">Efes Malt <span class="price">170₺</span></div>
+    <div class="item" onclick="showProduct('Efes 50 cl', ' Efes 50 cl.', 'efes5.jpg')">Efes 50cl <span class="price">170₺</span></div>
+    <div class="item" onclick="showProduct('Efes Özel Seri', 'Efes Özel seri.', 'seri.jpg')">Efes Özel Seri <span class="price">180₺</span></div>
+    <div class="item" onclick="showProduct('Bomonti Filtresiz', 'Bomonti Filtresiz.', 'bomonti.jpg')">Bomonti Filtresiz <span class="price">190₺</span></div>
+    <div class="item" onclick="showProduct('Becks', 'Becks.', 'becks.jpg')">Becks <span class="price">200₺</span></div>
+    <div class="item" onclick="showProduct('Miller 33 cl', 'Miller 33 cl.', 'miller-33.jpg')">Miller 33 cl <span class="price">170₺</span></div>
+    <div class="item" onclick="showProduct('Corona', 'Corona.', 'corona.jpg')">Corona <span class="price">250₺</span></div>
+    <div class="item" onclick="showProduct('Erdinger 33 cl', 'Erdinger 33 cl.', 'erdinger.jpg')">Erdinger 33 cl <span class="price">260₺</span></div>
+    <div class="item" onclick="showProduct('Efes Glutensiz', 'Efes Glutensiz.', 'gulutensiz.jpg')">Efes Glutensiz <span class="price">190₺</span></div>   
+    <div class="item" onclick="showProduct('Amsterdam', 'Amsterdam.', 'amsterdam.jpg')">Amsterdam <span class="price">280₺</span></div>
+    <div class="item" onclick="showProduct('Duvel 33 cl', 'Duvel 33 cl.', 'duvel.jpg')">Duvel 33 cl <span class="price">330₺</span></div>
+    <div class="item" onclick="showProduct('Belfast', 'Belfast.', 'Belfast.jpeg')">Belfast <span class="price">180₺</span></div>
+    <div class="item" onclick="showProduct('Grolsch', 'Grolsch.', 'grosolch.jpg')">Grolsch <span class="price">260₺</span></div>
+    <div class="item" onclick="showProduct('Bud', 'Bud.', 'bud.jpg')">Bud <span class="price">200₺</span></div>
+    <div class="item" onclick="showProduct('Miller 50 cl', 'Miller 50 cl.', 'miller-50.jpg')">Miller 50 cl <span class="price">220₺</span></div>
+    <div class="item" onclick="showProduct('Leffe Blond 33 cl', 'Leffe Blond 33 cl.', 'leffe.jpg')">Leffe Blond 33 cl <span class="price">260₺</span></div>   
+</div>
+
+<div class="category" style="background-image: url('viski.jpg');" onclick="toggleItems('siseviskiler')">Şişe Viskiler</div>
+<div class="items" id="siseviskiler">
+    <div class="item" onclick="showProduct('Red Label 35cl', 'Klasik Red Label viski 35cl.', 'redlabel.png')">Red Label 35cl <span class="price">1700₺</span></div>
+    <div class="item" onclick="showProduct('Red Label 50cl', 'Klasik Red Label viski 50cl.', 'redlabel.png')">Red Label 50cl <span class="price">2400₺</span></div>
+    <div class="item" onclick="showProduct('Red Label 70cl', 'Klasik Red Label viski 70cl.', 'redlabel.png')">Red Label 75cl <span class="price">3000₺</span></div>
+    <div class="item" onclick="showProduct('Black Label 35cl', 'Özel seçilmiş Black Label viski 35cl.', 'blacklabel.png')">Black Label 35cl <span class="price">1950₺</span></div>
+    <div class="item" onclick="showProduct('Black Label 50cl', 'Özel seçilmiş Black Label viski 50cl.', 'blacklabel.png')">Black Label 50cl <span class="price">2700₺</span></div>
+    <div class="item" onclick="showProduct('Black Label 70cl', 'Özel seçilmiş Black Label viski 70cl.', 'blacklabel.png')">Black Label 70cl <span class="price">3300₺</span></div>
+    <div class="item" onclick="showProduct('Gold Label 70cl', 'Özel seçilmiş Gold Label viski 70cl.', 'goldlabel.png')">Gold Label 70cl <span class="price">4500₺</span></div>
+    <div class="item" onclick="showProduct('Dimple golden 70cl', 'Özel seçilmiş Dimple golden viski 70cl.', 'dimple.png')">Dimple Golden 70cl <span class="price">2900₺</span></div>
+    <div class="item" onclick="showProduct('Singleton 70cl', 'Özel seçilmiş singleton viski 70cl.', 'singleton.png')">Singleton 70cl <span class="price">3200₺</span></div>
+    <div class="item" onclick="showProduct('Talisker 70cl', 'Özel seçilmiş Talisker viski 70cl.', 'talisker.jpg')">Talisker 70cl <span class="price">4400₺</span></div>
+    <div class="item" onclick="showProduct('Lagavulin 70cl', 'Özel seçilmiş lagavulin viski 70cl.', 'lagavulin.jpg')">Lagavulin 70cl <span class="price">4700₺</span></div>
+    <div class="item" onclick="showProduct('Cardhu 70cl', 'Özel seçilmiş Cardhu viski 70cl.', 'carhu.jpg')">Cardhu 70cl 70cl <span class="price">3400₺</span></div>
+    <div class="item" onclick="showProduct('Mortlack 12 70cl', 'Özel seçilmiş mortlack 12 yıllık viski 70cl.', 'mortlack.png')">Mortlack 12 70cl <span class="price">5700₺</span></div>
+    <div class="item" onclick="showProduct('Bulleit bourbon 70cl', 'Özel seçilmiş Bulleit bourbon viski 70cl.', 'buliet.png')">Bulleit bourbon 70cl <span class="price">3800₺</span></div>
+    <div class="item" onclick="showProduct('Jack daniels 35cl', 'Klasik Jack daniels viski 35cl.', 'jack.png')">Jack daniels 35cl <span class="price">1950₺</span></div>
+    <div class="item" onclick="showProduct('Jack daniels 50cl', 'Klasik Jack daniels viski 50cl.', 'jack.png')">Jack daniels 50cl <span class="price">2700₺</span></div>
+    <div class="item" onclick="showProduct('Jack daniels 70cl', 'Klasik Jack daniels viski 70cl.', 'jack.png')">Jack daniels 70cl <span class="price">3300₺</span></div>
+    <div class="item" onclick="showProduct('Chivas regal 35cl', 'Klasik Jack chivas regal viski 35cl .', 'chivas.png')">Chivas regal 35cl <span class="price">2050₺</span></div>
+    <div class="item" onclick="showProduct('Chivas regal 50cl', 'Klasik Jack chivas regal viski 50cl.', 'chivas.png')">Chivas regal 50cl <span class="price">2800₺</span></div>
+    <div class="item" onclick="showProduct('Chivas regal 70cl', 'Klasik Jack chivas regal viski 70cl.', 'chivas.png')">Chivas regal 70cl <span class="price">3400₺</span></div>
+    <div class="item" onclick="showProduct('Ballantines 35cl', 'Klasik Jack ballantines viski 35cl.', 'ballantines.png')">Ballantines 35cl <span class="price">1800₺</span></div>
+    <div class="item" onclick="showProduct('Ballantines 50cl', 'Klasik Jack ballantines viski 50cl.', 'ballantines.png')">Ballantines 50cl <span class="price">2400₺</span></div>
+    <div class="item" onclick="showProduct('Ballantines 70cl', 'Klasik Jack ballantines viski 70cl.', 'ballantines.png')">Ballantines 70cl <span class="price">3200₺</span></div>
+    <div class="item" onclick="showProduct('Johnnie walker age 18 70cl', 'Özel seçilmiş johnnie walker age 18 viski 35cl.', 'jonnie.png')">johnnie walker age 18 70cl <span class="price">5200₺</span></div>
+    <div class="item" onclick="showProduct('Macallan 70cl', 'Klasik Jack macallan viski 50cl.', 'macallan.png')">Macallan 70cl <span class="price">7000₺</span></div>
+    <div class="item" onclick="showProduct('Jameson 70cl', 'Klasik Jack jameson viski 70cl.', 'jameson.png')">jameson 70cl <span class="price">3600₺</span></div>    
+</div>
+
+<div class="category" style="background-image: url('vodka.jpg');" onclick="toggleItems('sisevodkalar')">Şişe Vodkalar</div>
+<div class="items" id="sisevodkalar">
+    <div class="item" onclick="showProduct('Gilbeys 35cl', 'Gilbeys 35cl vodka.', 'gilbeys.jpg')">Gilbey's 35cl<span class="price">1200₺</span></div>
+    <div class="item" onclick="showProduct('Gilbeys 50cl', 'Gilbeys 50cl vodka.', 'gilbeys.jpg')">Gilbey's 50cl<span class="price">1700₺</span></div>
+    <div class="item" onclick="showProduct('Gilbeys 70cl', 'Gilbeys 70cl vodka.', 'gilbeys.jpg')">Gilbey's 70cl<span class="price">2500₺</span></div>
+    <div class="item" onclick="showProduct('Smirnoff 35cl', 'Smirnoff 35cl vodka.', 'smirnoff.jpg')">Smirnoff 35cl<span class="price">1500₺</span></div>
+    <div class="item" onclick="showProduct('Smirnoff 50cl', 'Smirnoff 50cl vodka.', 'smirnoff.jpg')">Smirnoff 50cl<span class="price">2100₺</span></div>
+    <div class="item" onclick="showProduct('Smirnoff 70cl', 'Smirnoff 70cl vodka.', 'smirnoff.jpg')">Smirnoff 70cl<span class="price">2800₺</span></div>
+    <div class="item" onclick="showProduct('Absolut 35cl', 'Absolut 35cl vodka.', 'absolute.jpg')">Absolut 35cl<span class="price">1700₺</span></div>
+    <div class="item" onclick="showProduct('Absolut 50cl', 'Absolut 50cl vodka.', 'absolute.jpg')">Absolut 50cl<span class="price">2300₺</span></div>
+    <div class="item" onclick="showProduct('Absolut 70cl', 'Absolut 70cl vodka.', 'absolute.jpg')">Absolut 70cl<span class="price">2800₺</span></div>
+    <div class="item" onclick="showProduct('Ketel one 70cl', 'Ketel one 70cl vodka.', 'ketel.jpg')">Ketel one 70cl<span class="price">3400₺</span></div>
+    <div class="item" onclick="showProduct('Haku japanese 70cl', 'Haku japanese 70cl vodka.', 'haku.jpg')">Haku japanese 70cl<span class="price">3400₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('sisegin.jpg');" onclick="toggleItems('siseginler')">Şişe ginler</div>
+<div class="items" id="siseginler">
+    <div class="item" onclick="showProduct('Gilbeys 35cl', 'Gilbeys 35cl .', 'gilbeysgin.jpg')">Gilbey's 35cl<span class="price">1600₺</span></div>
+    <div class="item" onclick="showProduct('Gilbeys 50cl', 'Gilbeys 50cl .', 'gilbeysgin.jpg')">Gilbey's 50cl<span class="price">1800₺</span></div>
+    <div class="item" onclick="showProduct('Gilbeys 70cl', 'Gilbeys 70cl .', 'gilbeysgin.jpg')">Gilbey's 70cl<span class="price">2500₺</span></div>
+    <div class="item" onclick="showProduct('Gordons dry 35cl', 'Gordons dry 35cl Gin.', 'gordons.jpg')">Gordon's dry 35cl<span class="price">1800₺</span></div>
+    <div class="item" onclick="showProduct('Gordons dry 50cl', 'Gordons dry 50cl Gin.', 'gordons.jpg')">Gordon's dry 50cl<span class="price">2400₺</span></div>
+    <div class="item" onclick="showProduct('Gordons dry 70cl', 'Gordons dry 70cl Gin.', 'gordons.jpg')">Gordon's dry 70cl<span class="price">3100₺</span></div>
+    <div class="item" onclick="showProduct('gordons pink 70cl', 'gordons pink 70cl Gin.', 'gordonspink.jpg')">gordon's pink<span class="price">3200₺</span></div>
+    <div class="item" onclick="showProduct('Stırlink 35cl', 'Stırlink 35cl.', 'stırlink.jpg')">Stırlink 35cl<span class="price">1700₺</span></div>
+    <div class="item" onclick="showProduct('Stırlink 50cl', 'Stırlink 50cl Gin.', 'stırlink.jpg')">Stırlink 50cl<span class="price">2400₺</span></div>
+    <div class="item" onclick="showProduct('Stırlink 70cl', 'Stırlink 70cl Gin.', 'stırlink.jpg')">Stırlink 70cl<span class="price">3300₺</span></div>
+    <div class="item" onclick="showProduct('Stırlink ping 70cl', 'Stırlink ping 70cl.', 'stırlinkpink.png')">Stırlink pink 70cl<span class="price">3700₺</span></div>
+    <div class="item" onclick="showProduct('Bombay 70cl', 'Bombay 70cl Gin.', 'bombay.jpg')">Bombay 70cl<span class="price">3700₺</span></div>
+    <div class="item" onclick="showProduct('Beefeather 35cl', 'Beefeather 35cl Gin.', 'beefeather.jpg')">Beefeather  35cl<span class="price">1700₺</span></div>
+    <div class="item" onclick="showProduct('Beefeather  50cl', 'Beefeather 50cl Gin.', 'beefeather.jpg')">Beefeather 50cl<span class="price">2900₺</span></div>
+    <div class="item" onclick="showProduct('Beefeather pink 70cl', 'Beefeather pink 70cl Gin .', 'beefpink.jpg')">Beefeather pink 70cl<span class="price">3600₺</span></div>
+    <div class="item" onclick="showProduct('Cork 70cl', 'Cork 70cl Gin .', 'cork.jpg')">Cork 70cl<span class="price">2800₺</span></div>
+    <div class="item" onclick="showProduct('Torquay 70cl', 'Torquay 70cl Gin .', 'torq.jpg')">Torquay 70cl<span class="price">3000₺</span></div>    
+</div>
+
+<div class="category" style="background-image: url('gintek.jpg');" onclick="toggleItems('gintek')">Gin tek & duble</div>
+<div class="items" id="gintek">
+    <div class="item" onclick="showProduct('Gilbeys (tek)', 'Gilbeys (tek) .', 'gilbeysgin.jpg')">Gilbey's (tek)<span class="price">19₺</span></div>
+    <div class="item" onclick="showProduct('Gilbeys (duble)', 'Gilbeys (duble) .', 'gilbeysgin.jpg')">Gilbey's (duble)<span class="price">270₺</span></div>
+    <div class="item" onclick="showProduct('Gordons dry (tek)', 'Gordons dry (tek).', 'gordons.jpg')">Gordon's dry (tek)<span class="price">230₺</span></div>
+    <div class="item" onclick="showProduct('Gordons dry (duble)', 'Gordons dry (duble).', 'gordons.jpg')">Gordon's dry (duble)<span class="price">290₺</span></div>
+    <div class="item" onclick="showProduct('gordons pink (tek)', 'gordons pink (tek).', 'gordonspink.jpg')">gordon's pink (tek)<span class="price">250₺</span></div>
+    <div class="item" onclick="showProduct('gordons pink (duble)', 'gordons pink (duble).', 'gordonspink.jpg')">gordon's pink (duble)<span class="price">310₺</span></div>
+    <div class="item" onclick="showProduct('Stırlink (tek)', 'Stırlink (tek).', 'stırlink.jpg')">Stırlink (tek)<span class="price">250₺</span></div>
+    <div class="item" onclick="showProduct('Stırlink (duble)', 'Stırlink (duble).', 'stırlink.jpg')">Stırlink (duble) <span class="price">330₺</span></div>
+    <div class="item" onclick="showProduct('Stırlink ping (tek)', 'Stırlink ping (tek).', 'stırlinkpink.png')">Stırlink pink (tek)<span class="price">270₺</span></div>
+    <div class="item" onclick="showProduct('Stırlink ping (duble)', 'Stırlink ping (duble).', 'stırlinkpink.png')">Stırlink pink (duble)<span class="price">370₺</span></div>
+    <div class="item" onclick="showProduct('Bombay (tek)', 'Bombay (tek).', 'bombay.jpg')">Bombay (tek)<span class="price">300₺</span></div>
+    <div class="item" onclick="showProduct('Bombay (duble)', 'Bombay (duble).', 'bombay.jpg')">Bombay (duble)<span class="price">390₺</span></div>
+    <div class="item" onclick="showProduct('Beefeather (tek)', 'Beefeather (tek).', 'beefeather.jpg')">Beefeather  (tek)<span class="price">250₺</span></div>
+    <div class="item" onclick="showProduct('Beefeather (duble)', 'Beefeather (duble)', 'beefeather.jpg')">Beefeather (duble)<span class="price">310₺</span></div>
+    <div class="item" onclick="showProduct('Beefeather pink (tek)', 'Beefeather pink (tek) .', 'beefpink.jpg')">Beefeather pink (tek)<span class="price">270₺</span></div>
+    <div class="item" onclick="showProduct('Beefeather pink (duble)', 'Beefeather pink (duble) .', 'beefpink.jpg')">Beefeather pink (duble)<span class="price">340₺</span></div>
+    <div class="item" onclick="showProduct('Cork (tek)', 'Cork (tek) .', 'cork.jpg')">Cork (tek)<span class="price">220₺</span></div>
+    <div class="item" onclick="showProduct('Cork (duble)', 'Cork (duble) .', 'cork.jpg')">Cork (duble)<span class="price">280₺</span></div>
+    <div class="item" onclick="showProduct('Torquay (tek)', 'Torquay (tek) .', 'torq.jpg')">Torquay (tek)<span class="price">330₺</span></div>
+    <div class="item" onclick="showProduct('Torquay (duble)', 'Torquay (duble) .', 'torq.jpg')">Torquay (duble)<span class="price">390₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('xabunsignaturekokteyl.jpeg');" onclick="toggleItems('xabunsignaturekokteyl')">Xabun Signature Kokteyl</div>
+<div class="items" id="xabunsignaturekokteyl">
+    <div class="item" onclick="showProduct('Relax', 'cin, greyfurt suyu, aperol, hindistan cevizi şurubu, tezesıkılmış limon suyu.', 'relax.jpeg')">Relax <span class="price">330₺</span></div>
+    <div class="item" onclick="showProduct('Duck', 'Tekila, cin, rom, taze sıkılmış limon suyu, turunç şarabı, şeftali suyu.', 'duck.jpeg')">Duck <span class="price">340₺</span></div>
+    <div class="item" onclick="showProduct('Blue Dreams', 'rom, ananas suyu, taze sıkılmış limon, hindistan cevizi suyu, turunç şarabı .', 'bluedreams.jpeg')">Blue Dreams <span class="price">330₺</span></div>
+    <div class="item" onclick="showProduct('Galaxy', 'Rom, cin, taze sıkılmış limon, yaban mersinli redbull .', 'galaxy.jpeg')">Galaxy <span class="price">360₺</span></div>
+    <div class="item" onclick="showProduct('Chikki', 'Votka, grenadin, taze limon suyu, limonata.', 'chikki.jpeg')">Chikki  <span class="price">340₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('surahikokteyl.jpeg');" onclick="toggleItems('surahikokteyl')">Sürahi kokteyl</div>
+<div class="items" id="surahikokteyl">
+    <div class="item" onclick="showProduct('Long island', 'Tekila , Votka, Beyaz rom, Cin, Portakal likörü, Limon suyu, Şurup İlave kola.', 'long.jpeg')">Long island <span class="price">1500₺</span></div>
+    <div class="item" onclick="showProduct('Mojito', 'Beyaz rom, taze misket limonu suyu, nane yaprağı, beyaz şeker Soda.', 'mojito.jpeg')">Mojito <span class="price">1200₺</span></div>
+    <div class="item" onclick="showProduct('Lynchburg lemonade', 'viski. portakal likörütaze limon suyu. gazoz.', 'lynchburg.jpeg')">Lynchburg lemonade <span class="price">1300₺</span></div>
+    <div class="item" onclick="showProduct('Sex on the beach', 'votka, şeftali aromalı Schnapps, portakal suyu ve kızılcık suyu.', 'ontheb.jpeg')">Sex on the beach <span class="price">1300₺</span></div>
+    <div class="item" onclick="showProduct('Sangria', 'kırmızı şarap, meyve parçaları, şeker, rom.', 'sangria.jpeg')">Sangria <span class="price">1300₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('sampanya.png');" onclick="toggleItems('sampanya')">Şampanyalar</div>
+<div class="items" id="sampanya">
+    <div class="item" onclick="showProduct('Cafe de paris', 'cafe de paris.', 'cafep.png')">Cafe de paris <span class="price">2900₺</span></div>
+    <div class="item" onclick="showProduct('Garrone proesecco', 'Garrone proesecco.', 'garrone.png')">Garrone proesecco <span class="price">3100₺</span></div>
+    <div class="item" onclick="showProduct('Leona bubble', 'Leona bubble.', 'leona.png')">Leona bubble <span class="price">1700₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('siserom.jpg');" onclick="toggleItems('siserom')">Şişe rom</div>
+<div class="items" id="siserom">
+    <div class="item" onclick="showProduct('Captain morgan white 70 cl', 'Captain morgan white 70 cl.', 'captain.jpg')">Captain morgan white 70 cl <span class="price">2100₺</span></div>
+    <div class="item" onclick="showProduct('Captain morgan gold 70 cl', 'Captain morgan gold 70 cl.', 'captaingold.jpg')">Captain morgan gold 70 cl <span class="price">2300₺</span></div>
+    <div class="item" onclick="showProduct('Bacardi white 70 cl', 'Bacardi white 70 cl.', 'bacardi.jpg')">Bacardi white 70 cl <span class="price">2400₺</span></div>
+    <div class="item" onclick="showProduct('Bacardi gold 70 cl', 'Bacardi gold 70 cl.', 'bacardig.jpg')">Bacardi gold 70 cl <span class="price">2600₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('romtek.png');" onclick="toggleItems('romtek')">Rom tek & duble</div>
+<div class="items" id="romtek">
+    <div class="item" onclick="showProduct('Captain morgan white (tek)', 'Captain morgan (tek).', 'captain.jpg')">Captain morgan white (tek) <span class="price">170₺</span></div>
+    <div class="item" onclick="showProduct('Captain morgan white (duble)', 'Captain morgan (duble).', 'captain.jpg')">Captain morgan white (duble) <span class="price">240₺</span></div>
+    <div class="item" onclick="showProduct('Captain morgan (tek)', 'Captain morgan (tek).', 'captaingold.jpg')">Captain morgan (tek) <span class="price">190₺</span></div>
+    <div class="item" onclick="showProduct('Captain morgan (duble)', 'Captain morgan (duble).', 'captaingold.jpg')">Captain morgan (duble) <span class="price">260₺</span></div>
+    <div class="item" onclick="showProduct('Bacardi white (tek)', 'Bacardi white (tek).', 'bacardi.jpg')">Bacardi white (tek) <span class="price">190₺</span></div>
+    <div class="item" onclick="showProduct('Bacardi white (duble)', 'Bacardi white (duble).', 'bacardi.jpg')">Bacardi white (duble) <span class="price">260₺</span></div>
+    <div class="item" onclick="showProduct('Bacardi gold (tek)', 'Bacardi gold (tek).', 'bacardig.jpg')">Bacardi gold (tek) <span class="price">210₺</span></div>
+    <div class="item" onclick="showProduct('Bacardi gold (duble)', 'Bacardi gold (duble).', 'bacardig.jpg')">Bacardi gold (duble) <span class="price">280₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('cerezler.png');" onclick="toggleItems('cerezler')">Çerezler</div>
+<div class="items" id="cerezler">
+    <div class="item" onclick="showProduct('Tuzlu fısrtık tabağı ', 'Tuzlu fıstık tabağı.', 'fıstık.jpg')">Tuzlu fıstık tabağı <span class="price">70₺</span></div>
+    <div class="item" onclick="showProduct('Karışık çerez tabağı', 'Karışık çerez tabağı.', 'karısık.png')">Karışık çerez tabağı <span class="price">90</span></div>
+    <div class="item" onclick="showProduct('Viski tabağı', 'Viski tabağı.', 'vtabak.png')">Viski tabağı <span class="price">120₺</span></div>
+    <div class="item" onclick="showProduct('Eski kaşar tabağı', 'Eski kaşar tabağı.', 'kasar.png')">Eski kaşar tabağı <span class="price">90₺</span></div>
+    <div class="item" onclick="showProduct('Patates cipsi', 'Patates cipsi.', 'cips.png')">Patates cipsi <span class="price">90₺</span></div>
+    <div class="item" onclick="showProduct('Turşu', 'turşu.', 'tursu.jpg')">Turşu <span class="price">60₺</span></div>
+    <div class="item" onclick="showProduct('Çikolata', 'Çikolata.', 'cikolata.jpg')">Çikolata <span class="price">70₺</span></div>
+    <div class="item" onclick="showProduct('Meyve Tabağı', 'Meyve Tabağı.', 'meyve.jpg')">Meyve Tabağı <span class="price">200₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('raki.jpg');" onclick="toggleItems('raki')">Rakılar</div>
+<div class="items" id="raki">
+    <div class="item" onclick="showProduct('Yeni rakı (tek)', 'Yeni rakı (tek).', 'yraki.jpg')">Yeni rakı (tek) <span class="price">240₺</span></div>
+    <div class="item" onclick="showProduct('Yeni rakı (duble)', 'Yeni rakı (duble).', 'yraki.jpg')">Yeni rakı (duble) <span class="price">280₺</span></div>
+    <div class="item" onclick="showProduct('Beylerbeyi göbek (tek)', 'Beylerbeyi göbek (tek).', 'beylerg.jpg')">Beylerbeyi göbek (tek) <span class="price">250₺</span></div>
+    <div class="item" onclick="showProduct('Beylerbeyi göbek (double)', 'Beylerbeyi göbek (double).', 'beylerg.jpg')">Beylerbeyi göbek (double) <span class="price">290₺</span></div>
+    <div class="item" onclick="showProduct('Efe gold (tek)', 'Efe gold (tek).', 'efegold.jpg')">Efe gold (tek) <span class="price">250₺</span></div>
+    <div class="item" onclick="showProduct('Efe gold (double)', 'Efe gold (double).', 'efegold.jpg')">Efe gold (double) <span class="price">290₺</span></div>
+    <div class="item" onclick="showProduct('Tekirdağ altın serisi (tek)', 'Tekirdağ altın serisi (tek).', 'tekirdaggold.jpg')">Tekirdağ altın serisi (tek) <span class="price">250₺</span></div>
+    <div class="item" onclick="showProduct('Tekirdağ altın serisi (double)', 'Tekirdağ altın serisi (double).', 'tekirdaggold.jpg')">Tekirdağ altın serisi (double) <span class="price">290₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('sicak.jpg');" onclick="toggleItems('sicakicecekler')">Sıcak İçecekler</div>
+<div class="items" id="sicakicecekler">
+    <div class="item" onclick="showProduct('Sahlep', 'Sahlep.', 'sahlep.jpg')">Sahlep <span class="price">80₺</span></div>
+    <div class="item" onclick="showProduct('Sıcak çikolata', 'Sıcak Çikolata.', 'sicakciko.jpg')">Sıcak Çikolata <span class="price">80₺</span></div>
+    <div class="item" onclick="showProduct('Sıcak beyaz çikolata', 'Sıcak beyaz çikolata.', 'sicakbeyaz.jpg')">Sıcak beyaz çikolata <span class="price">80₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('alkollukahve.jpg');" onclick="toggleItems('alkollukahveler')">Alkollü Kahveler</div>
+<div class="items" id="alkollukahveler">
+    <div class="item" onclick="showProduct('Espresso martini', 'votka kahve likörü soğuk espresso. Şeker Şurubu. espresso çekirdeği.', 'espresso.jpeg')">Espresso martini <span class="price">300₺</span></div>
+    <div class="item" onclick="showProduct('İris coffee', ' sıcak kahve, İrlanda viskisi ve şeker karışımının üzerinde kremayla servis edildiği bir kahve kokteyli..', 'iris.jpg')">İris Coffee <span class="price">270₺</span></div>
+    <div class="item" onclick="showProduct('Whiskey coffee', 'Johnnie Walker Black Label. shot bardağı Filtre Kahve(soğutulmuş)Esmer Şeker Şurubu Yoğun Krema.', 'whiskeycof.png')">Whiskey coffee <span class="price">300₺</span></div>
+    <div class="item" onclick="showProduct('English coffee', 'Sıcak kahve, İrlanda viskisi ve şeker kullanılarak hazırlanır. Üzerine krema dökülerek servis edilir. ', 'englishcof.png')">English coffee<span class="price">310₺</span></div>
+    <div class="item" onclick="showProduct('Baileys Latte', 'Kahve likörü Baileys Portakal Likörü Kahve Krema.', 'baileys.png')">Baileys Latte <span class="price">270₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('sisekonyak.png');" onclick="toggleItems('şişekonyak')">Şişe Konyak</div>
+<div class="items" id="şişekonyak">
+    <div class="item" onclick="showProduct('Remy martin v.s.o.p 70cl', 'Remy martin v.s.o.p 70cl.', 'remy.png')">Remy martin v.s.o.p 70cl <span class="price">5700₺</span></div>
+    <div class="item" onclick="showProduct('Hennessy 70cl', 'Hennessy 70cl.', 'hennessy.png')">Hennessy 70cl<span class="price">5900₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('kadehkon.png');" onclick="toggleItems('kadehkonyak')">Kadeh Konyak</div>
+<div class="items" id="kadehkonyak">
+    <div class="item" onclick="showProduct('Remy martin v.s.o.p', 'Remy martin v.s.o.p.', 'remy.png')">Remy martin v.s.o.p <span class="price">400₺</span></div>
+    <div class="item" onclick="showProduct('Hennessy', 'Hennessy.', 'hennessy.png')">Hennessy <span class="price">450₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('sogukmesrubat.png');" onclick="toggleItems('sogukmesrubat')">Soğuk meşrubatlar</div>
+<div class="items" id="sogukmesrubat">
+    <div class="item" onclick="showProduct('Cola', 'cola.', 'cola.jpeg')">Cola <span class="price">90₺</span></div>
+    <div class="item" onclick="showProduct('Cola zero', 'cola zero.', 'colaz.png')">Cola Zero <span class="price">90₺</span></div>
+    <div class="item" onclick="showProduct('Fanta', 'Fanta.', 'fanta.png')">Fanta <span class="price">90₺</span></div>
+    <div class="item" onclick="showProduct('Sprite', 'Sprite.', 'sprite.png')">Sprite <span class="price">90₺</span></div>
+    <div class="item" onclick="showProduct('Redbull', 'Redbull.', 'redbull.png')">Redbull <span class="price">120₺</span></div>
+    <div class="item" onclick="showProduct('Fuse tea', 'Fuse tea.', 'fuse.png')">Fuse tea <span class="price">80₺</span></div>
+    <div class="item" onclick="showProduct('Sade soda', ' Sade soda.', 'soda.png')">Sade soda <span class="price">70₺</span></div>
+    <div class="item" onclick="showProduct('Meyveli soda', ' Meyveli soda.', 'sodam.jpg')">Meyveli soda <span class="price">80₺</span></div>
+    <div class="item" onclick="showProduct('Portakal suyu', ' Portakal suyu.', 'portakal.jpg')">Portakal suyu <span class="price">70₺</span></div>
+    <div class="item" onclick="showProduct('Su', ' Su.', 'su.jpg')">Su <span class="price">30₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('saraplar.jpg');" onclick="toggleItems('Şaraplar')">Şaraplar</div>
+<div class="items" id="Şaraplar">
+    <div class="item" onclick="showProduct('Casal Mendes (Rose)', 'Casal Mendes (Rose).', 'casal.jpg')">Casal Mendes (Rose)<span class="price">1400₺</span></div>
+    <div class="item" onclick="showProduct('Cielo pinot grigio blush', 'cielo pinot grigio blush.', 'cielopinotb.png')">Cielo pinot grigio blush<span class="price">1300₺</span></div>
+    <div class="item" onclick="showProduct('cielo pinot grigio beyaz', 'cielo pinot grigio beyaz.', 'cielobeyaz.png')">Cielo pinot grigio beyaz<span class="price">1200₺</span></div>
+    <div class="item" onclick="showProduct('Cielo cabert sauvignon', 'Cielo cabert sauvignon.', 'cielocabert.png')">Cielo cabert sauvignon<span class="price">1200₺</span></div>
+    <div class="item" onclick="showProduct('kayra vintage merlot', 'kayra vintage merlot.', 'kayravintage.png')">Kayra vintage merlot <span class="price">1400₺</span></div>
+    <div class="item" onclick="showProduct('Leona blush rose', 'leona blush rose.', 'leoblush.jpg')">Leona blush rose <span class="price">1100₺</span></div>
+    <div class="item" onclick="showProduct('Leona bubble (beyaz)', 'leona bubble (beyaz).', 'leobubble.jpg')">Leona bubble (beyaz) <span class="price">1100₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('kadehsarap.jpg');" onclick="toggleItems('şarapkadeh')">Şarap Kadeh</div>
+<div class="items" id="şarapkadeh">
+    <div class="item" onclick="showProduct('Casal Mendes (Rose)', 'Casal Mendes (Rose).', 'casalrose.jpg')">Casal Mendes (Rose)<span class="price">350₺</span></div>
+    <div class="item" onclick="showProduct('Buzbağ (rose)', 'Buzbağ (rose).', 'buzbagrose.png')">Buzbağ (rose)<span class="price">260₺</span></div>
+    <div class="item" onclick="showProduct('buzbağ emir - narince', 'buzbağ emir - narince.', 'buzbagnari.png')">buzbağ emir - narince<span class="price">260₺</span></div>
+    <div class="item" onclick="showProduct('buzbağ öküzgözü - boğazkere', 'buzbağ öküzgözü - boğazkere.', 'buzbagokuz.jpg')">buzbağ öküzgözü - boğazkere<span class="price">260₺</span></div>
+    <div class="item" onclick="showProduct('kayra Leona blush rose', 'kayra leona blush rose.', 'kayrablush.jpg')"> Kayra Leona blush rose <span class="price">300₺</span></div>
+</div>
+ 
+<div class="category" style="background-image: url('kahveler.jpg');" onclick="toggleItems('Kahveler')">Kahveler</div>
+<div class="items" id="Kahveler">
+    <div class="item" onclick="showProduct('Latte', 'Latte.', 'latte.png')">Latte <span class="price">75₺</span></div>
+    <div class="item" onclick="showProduct('Mocha', 'Mocha', 'mocha.png')">Mocha <span class="price">80₺</span></div>
+    <div class="item" onclick="showProduct('Cuppoccino', 'Cuppoccino.', 'cuppo.png')">Cuppoccino <span class="price">75₺</span></div>
+    <div class="item" onclick="showProduct('Americano', 'Americano.', 'americano.png')">Americano <span class="price">70₺</span></div>
+    <div class="item" onclick="showProduct('Single espresso', 'Single espresso.', 'singleex.png')">Single espresso <span class="price">65₺</span></div>
+    <div class="item" onclick="showProduct('Double espresso', ' Double espresso.', 'dubleex.jpg')">Double espresso<span class="price">85₺</span></div>
+    <div class="item" onclick="showProduct('Flat white', 'Flat white.', 'flatw.png')">Flat white <span class="price">70₺</span></div>
+    <div class="item" onclick="showProduct('Ristretto', ' Ristretto.', 'ristretto.png')">Ristretto<span class="price">75₺</span></div>
+    <div class="item" onclick="showProduct('Cortado', ' Cortado.', 'cortado.png')"> Cortado <span class="price">100₺</span></div>
+    <div class="item" onclick="showProduct('Türk kahvesi', ' Türk kahvesi.', 'türkkahve.png')">Türk kahvesi <span class="price">60₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('likörtek.png');" onclick="toggleItems('likörtek')">Likör tek & duble</div>
+<div class="items" id="likörtek">
+    <div class="item" onclick="showProduct('baileys (tek)', 'baileys (tek).', 'rltek.jpg')">Bailey's (tek)<span class="price">170₺</span></div>
+    <div class="item" onclick="showProduct('baileys (duble)', 'baileys (duble).', 'rltek.jpg')">Bailey's (duble)<span class="price">240₺</span></div>
+    <div class="item" onclick="showProduct('sheridans (tek)', 'sheridans (tek).', 'bltek.jpeg')">Sheridans (tek)<span class="price">200₺</span></div>
+    <div class="item" onclick="showProduct('sheridans (duble)', 'sheridans (duble).', 'bltek.jpeg')">Sheridans (duble)<span class="price">270₺</span></div>
+    <div class="item" onclick="showProduct('safari (tek)', 'safari (tek).', 'goldlabeltek.jpg')">Safari (tek) <span class="price">180₺</span></div>
+    <div class="item" onclick="showProduct('safari (duble)', 'safari (duble).', 'goldlabeltek.jpg')">Safari (duble) <span class="price">250₺</span></div>
+    <div class="item" onclick="showProduct('malibu (tek)', 'malibu (tek).', 'dimple.png')">Malibu (tek) <span class="price">170₺</span></div>
+    <div class="item" onclick="showProduct('malibu (duble)', 'malibu (duble).', 'dimple.png')">Malibu (duble) <span class="price">240₺</span></div>
+    <div class="item" onclick="showProduct('kahlva (tek)', 'kahlva (tek).', 'singleton.png')">Kahlva (tek) <span class="price">170₺</span></div>
+    <div class="item" onclick="showProduct('kahlva (duble)', 'kahlva (duble).', 'singleton.png')">Kahlva (duble) <span class="price">240₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('viskitek.jpg');" onclick="toggleItems('viskitek')">Viski tek & duble</div>
+<div class="items" id="viskitek">
+    <div class="item" onclick="showProduct('Red Label (tek)', 'Red Label (tek).', 'rltek.jpg')">Red Label (tek)<span class="price">250₺</span></div>
+    <div class="item" onclick="showProduct('Red Label (duble)', 'Red Label (duble).', 'rltek.jpg')">Red Label (duble)<span class="price">350₺</span></div>
+    <div class="item" onclick="showProduct('Black label (tek)', 'Black label (tek).', 'bltek.jpeg')">Black label (tek)<span class="price">280₺</span></div>
+    <div class="item" onclick="showProduct('Black Label (duble)', 'Black label (duble).', 'bltek.jpeg')">Black Label (duble)<span class="price">400₺</span></div>
+    <div class="item" onclick="showProduct('Gold Label (tek)', 'Gold Label (tek).', 'goldlabeltek.jpg')">Gold Label (tek) <span class="price">350₺</span></div>
+    <div class="item" onclick="showProduct('Gold Label (duble)', 'Gold Label (duble).', 'goldlabeltek.jpg')">Gold Label (duble) <span class="price">550₺</span></div>
+    <div class="item" onclick="showProduct('Dimple golden (tek)', 'Dimple golden (tek).', 'dimple.png')">Dimple golden (tek) <span class="price">275₺</span></div>
+    <div class="item" onclick="showProduct('Dimple golden (duble)', 'Dimple (golden) duble.', 'dimple.png')">Dimple golden (duble) <span class="price">375₺</span></div>
+    <div class="item" onclick="showProduct('Singleton (tek)', 'Singleton (tek).', 'singleton.png')">Singleton (tek) <span class="price">350₺</span></div>
+    <div class="item" onclick="showProduct('Singleton (duble)', 'Singleton (duble).', 'singleton.png')">Singleton (duble) <span class="price">450₺</span></div>
+    <div class="item" onclick="showProduct('Talisker (tek)', 'Talisker (tek).', 'talisker.jpg')">Talisker (tek) <span class="price">450₺</span></div>
+    <div class="item" onclick="showProduct('Talisker (duble)', 'Talisker (duble).', 'talisker.jpg')">Talisker (duble)<span class="price">700₺</span></div>
+    <div class="item" onclick="showProduct('Legavulin (tek)', 'Legavulin (tek).', 'legavulintek.png')">Legavulin (tek) <span class="price">375₺</span></div>
+    <div class="item" onclick="showProduct('Legavulin (duble)', 'Legavulin (duble).', 'legavulintek.png')">Legavulin (duble) <span class="price">650₺</span></div>
+    <div class="item" onclick="showProduct('Cardhu (tek)', 'Cardhu (tek).', 'carhu.jpg')">Cardhu (tek) <span class="price">370₺</span></div>
+    <div class="item" onclick="showProduct('Cardhu (duble)', 'cardhu (duble).', 'carhu.jpg')">Cardhu (duble) <span class="price">650₺</span></div>
+    <div class="item" onclick="showProduct('Mortlach 12 (tek)', 'Mortlach 12 (tek) .', 'mortlack.png')">Mortlach 12 (tek) <span class="price">500₺</span></div>
+    <div class="item" onclick="showProduct('Mortlach 12 (duble)', 'Mortlach 12 (duble).', 'mortlack.png')">Mortlach 12 (duble) <span class="price">875₺</span></div>
+    <div class="item" onclick="showProduct('bulliet bourbon (tek)', 'bulliet bourbon (tek).', 'buliet.png')">Bulliet bourbon (tek) <span class="price">470₺</span></div>
+    <div class="item" onclick="showProduct('bulliet bourbon (duble)', 'bulliet bourbon (duble).', 'buliet.png')">Bulliet bourbon (duble) <span class="price">875₺</span></div>
+    <div class="item" onclick="showProduct('jack daniels (tek)', 'jack daniels (tek).', 'jack.png')">Jack daniels (tek) <span class="price">280₺</span></div>
+    <div class="item" onclick="showProduct('jack daniels (duble)', 'jack daniels (duble).', 'jack.png')">Jack daniels (duble) <span class="price">400₺</span></div>
+    <div class="item" onclick="showProduct('chivas regal (tek)', 'chivas regal (tek).', 'chivastek.jpg')">Chivas regal (tek) <span class="price">280₺</span></div>
+    <div class="item" onclick="showProduct('chivas regal (duble)', 'chivas regal (duble).', 'chivastek.jpg')">Chivas regal (duble) <span class="price">400₺</span></div>
+    <div class="item" onclick="showProduct('ballentines (tek)', 'ballentines (tek).', 'ballantines.png')">Ballentines (tek) <span class="price">250₺</span></div>    
+    <div class="item" onclick="showProduct('ballentines (duble)', 'ballentines (duble).', 'ballantines.png')">Ballentines (duble) <span class="price">370₺</span></div>   
+    <div class="item" onclick="showProduct('jameson (tek)', 'jameson (tek).', 'jameson.png')">jameson (tek) <span class="price">240₺</span></div>    
+    <div class="item" onclick="showProduct('jameson (duble)', 'jameson (duble).', 'jameson.png')">jameson (duble) <span class="price">350₺</span></div>   
+    <div class="item" onclick="showProduct('macallan (tek)', 'macallan (tek).', 'macallan.png')">macallan (tek)<span class="price">650₺</span></div>   
+    <div class="item" onclick="showProduct('macallan (duble)', 'macallan (duble).', 'macallan.png')">macallan (duble)<span class="price">850₺</span></div>
+    <div class="item" onclick="showProduct('johnnie walker age 18 (tek)', 'johnnie walker age 18 (tek).', 'jonnie.png')">johnnie walker age 18 (tek)<span class="price">450₺</span></div>
+    <div class="item" onclick="showProduct('johnnie walker age 18 (duble)', 'johnnie walker age 18 (duble).', 'jonnie.png')">johnnie walker age 18 (duble)<span class="price">750₺</span></div>
+</div>
+
+<div class="category" style="background-image: url('shotlar.jpg');" onclick="toggleItems('Shotlar')">Shotlar</div>
+<div class="items" id="Shotlar">
+    <div class="item" onclick="showProduct('Olmeca', 'Olmeca.', 'olmeca.png')">Olmeca<span class="price">150₺</span></div>
+    <div class="item" onclick="showProduct('Jager shot', 'Jager shot.', 'jager.png')">Jager shot<span class="price">150₺</span></div>
+    <div class="item" onclick="showProduct('Xabun shot party', 'Xabun shot party.', 'shotparty.jpeg')">Xabun shot party<span class="price">900₺</span></div>
+    <div class="item" onclick="showProduct('6lı klasik shot tabağı', '6 adet tekila.', '6lıtekila.png')">6lı klasik shot tabağı<span class="price">1200₺</span></div>
+    <div class="item" onclick="showProduct('Don Julio', 'Don Julio.', 'donju.png')">Don julio <span class="price">240₺</span></div>
+    <div class="item" onclick="showProduct('Sierra', 'Sierra.', 'sierra.png')">Sierra <span class="price">140₺</span></div>
+    <div class="item" onclick="showProduct('Casamigos (beyaz)', 'Casamigos (beyaz).', 'casamigos.png')">Casamigos<span class="price">220₺</span></div>
+</div>  
+
+<div id="productPopup">
+    <span id="closePopup" onclick="closePopup()">✖</span>
+    <h2 id="popupTitle"></h2>
+    <img id="popupImage" src="" alt="">
+    <p id="popupDescription"></p>
+</div>
+
+<script>
+
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+
+const noResultsMessage = document.createElement('div');
+noResultsMessage.textContent = "Ürün bulunamadı.";
+noResultsMessage.style.textAlign = "center";
+noResultsMessage.style.marginTop = "20px";
+noResultsMessage.style.color = "#777";
+noResultsMessage.style.fontWeight = "bold";
+noResultsMessage.style.display = "none"; 
+searchResults.appendChild(noResultsMessage);
+
+const items = Array.from(document.querySelectorAll('.item')).map(item => {
+    const name = item.textContent.trim().split(' <')[0]; 
+    const price = item.querySelector('.price').textContent.trim(); 
+    const description = name;
+    const imgUrl = name.toLowerCase().replace(/\s+/g, '') + '.png';
+    return {
+        name,
+        price,
+        description,
+        imgUrl,
+        element: item 
+    };
+});
+
+function toggleItems(id) {
+    const itemsDiv = document.getElementById(id);
+    if (itemsDiv.style.display === "block") {
+        itemsDiv.style.display = "none";
+    } else {
+        itemsDiv.style.display = "block";
+    }
+}
+
+function closePopup() {
+    document.getElementById('productPopup').style.display = "none";
+}
+
+function showProduct(title, description, imgUrl) {
+    document.getElementById('popupTitle').textContent = title;
+    document.getElementById('popupDescription').textContent = description;
+    document.getElementById('popupImage').src = imgUrl;
+    document.getElementById('productPopup').style.display = "block";
+}
+
+function filterItems() {
+    const filterText = searchInput.value.toLowerCase();
+    searchResults.innerHTML = ''; 
+    let found = false;
+
+    if (filterText === '') {
+        noResultsMessage.style.display = "none";
+        return;
+    }
+
+    items.forEach(item => {
+        if (item.name.toLowerCase().includes(filterText) || item.description.toLowerCase().includes(filterText)) {
+            found = true;
+            const div = document.createElement('div');
+            div.innerHTML = item.name;
+            div.classList.add('search-result-item');
+            div.innerHTML = `${item.name} - ${item.price}`;
+            div.onclick = function () {
+                showProduct(item.name, item.description, item.name.toLowerCase() + '.jpg');
+            };
+            searchResults.appendChild(div);
+        }
+    });
+
+    if (!found) {
+        noResultsMessage.style.display = "block";
+    } else {
+        noResultsMessage.style.display = "none";
+    }
+
+    searchResults.style.display = found ? "block" : "none";
+}
+
+searchInput.addEventListener('input', filterItems);
+
+</script>
+
+</body>
+</html>
